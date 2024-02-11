@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUDGET APP</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>categoria</th>
+                <th>balance</th>
+            </tr>
+        </thead>
+        <tbody id="tablaCategoria">
+        </tbody>
+    </table>
+    <a href="alta.html">cargar categorias</a>
+    <a href="depositos.html">hacer deposito</a>
+    <script>
+        
+                const URL = "https://Sanddfort02.pythonanywhere.com/"
+        
+                
+                fetch(URL + 'listado')
+                    
+                    .then(function (response) {
+                        if (response.ok) {
+                            return response.json(); 
+                        } else {
+                            throw new Error('Error al obtener los productos.');
+                        }
+                    })
+        
+                    .then(function (data) {
+                        var tablaProductos = document.getElementById('tablaCategoria');
+        
+                        data.forEach(function (categoria) {
+                            
+                            var fila = document.createElement('tr');
+        
+                            fila.innerHTML = '<td>' + categoria.categoria_id + '</td>' +
+                                '<td>' + categoria.categoria + '</td>' +
+                                '<td align="right">&nbsp; &nbsp;&nbsp; &nbsp;' + categoria.balance + '</td>'
+                            
+                            tablaProductos.appendChild(fila);
+                        });
+                    })
+        
+                    .catch(function (error) {
+                        alert('Error al obtener los productos.');
+                    });
+            </script>
+</body>
+</html>

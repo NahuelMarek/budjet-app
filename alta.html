@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cargar categorias</title>
+</head>
+<body>
+    <form id="formulario">
+        <label for="categoria">categoria:</label>
+        <input type="text" id="categoria" name="categoria" required><br>
+
+        <button type="submit">Agregar categoria</button>
+        <a href="index.html">Menu principal</a>
+    </form>
+
+
+    <script>
+    const URL = "https://Sanddfort02.pythonanywhere.com/"
+        
+        document.getElementById('formulario').addEventListener('submit', function (event) {
+            event.preventDefault(); 
+
+            var categoria = document.getElementById('categoria').value;
+
+            var Categoria = {
+                categoria: categoria,
+                
+            };
+            console.log(Categoria)
+          
+            fetch(URL + 'categorias', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+               
+                body: JSON.stringify(Categoria) 
+            })
+            
+                .then(function (response) {
+                    
+                    if (response.ok) {
+                        return response.json(); 
+                    } else {
+                        throw new Error('Error al agregar el producto.');
+                    }
+                })
+               
+                .then(function (data) {
+                    alert('Producto agregado correctamente.'); 
+                    
+                    document.getElementById('categoria').value = "";
+                    
+                })
+                .catch(function (error) {
+                  
+                    alert('Error al agregar el producto.');
+                });
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>realizar depositos</title>
+</head>
+<body>
+    <form id="formulario1">
+        <h2>depositar</h2>
+        <label for="categoria">categoria:</label>
+        <input type="text" id="categoria" name="categoria" required><br>
+        
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" name="descripcion"><br>
+
+        <label for="amount">cantidad de dinero:</label>
+        <input type="number" step="0.50" id="amount" name="amount" required><br>
+
+        <button type="submit">Agregar deposito</button>
+        <a href="index.html">Menu principal</a>
+    </form>
+    
+    <form id="formulario2">
+        <h2>retirar</h2>
+        <label for="categoria_w">categoria:</label>
+        <input type="text" id="categoria_w" name="categoria_w" required><br>
+        
+        <label for="descripcion_w">Descripción:</label>
+        <input type="text" id="descripcion_w" name="descripcion_w"><br>
+
+        <label for="amount_w">cantidad de dinero:</label>
+        <input type="number" step="0.50" id="amount_w" name="amount_w" required><br>
+
+        <button type="submit">retirar dinero</button>
+        <a href="index.html">Menu principal</a>
+    </form>
+
+    <script>
+    const URL = "https://Sanddfort02.pythonanywhere.com/"
+        
+        document.getElementById('formulario1').addEventListener('submit', function (event) {
+            event.preventDefault(); 
+            
+            var categoria = document.getElementById('categoria').value;
+            var descripcion = document.getElementById('descripcion').value;
+            var amount = document.getElementById('amount').value;
+
+            var Deposito = {
+                categoria: categoria,
+                descripcion: descripcion,
+                amount: amount
+            };
+            console.log(Deposito)
+            
+            fetch(URL + 'depositos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json' 
+                },
+                
+                body: JSON.stringify(Deposito) 
+            })
+            
+                .then(function (response) {
+                   
+                    if (response.ok) {
+                        return response.json(); 
+                    } else {
+                        throw new Error('Error al realizar el deposito.');
+                    }
+                })
+                
+                
+                .then(function (data) {
+                    alert('Deposito agregado correctamente.'); 
+                    
+                    document.getElementById('categoria').value = "";
+                    document.getElementById('descripcion').value = "";
+                    document.getElementById('amount').value = "";
+                })
+                .catch(function (error) {
+                    alert('Error al agregar el deposito.');
+                });
+        })
+
+        document.getElementById('formulario2').addEventListener('submit', function (event) {
+            event.preventDefault(); 
+
+            var categoria = document.getElementById('categoria_w').value;
+            var descripcion = document.getElementById('descripcion_w').value;
+            var amount = document.getElementById('amount_w').value;
+
+            var Retiro = {
+                categoria: categoria,
+                descripcion: descripcion,
+                amount: amount
+            };
+            console.log(Retiro)
+            fetch(URL + 'withdraws', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json' 
+                },
+    
+                body: JSON.stringify(Retiro) 
+            })
+            
+                .then(function (response) {
+                
+                    if (response.ok) {
+                        return response.json(); 
+                    } else {
+                        throw new Error('Error al realizar el retiro.');
+                    }
+                })
+                
+                
+                .then(function (data) {
+                    alert('dinero retirado correctamente.'); 
+                    
+                    document.getElementById('categoria_w').value = "";
+                    document.getElementById('descripcion_w').value = "";
+                    document.getElementById('amount_w').value = "";
+                })
+                .catch(function (error) {
+                    
+                    alert('Error al realizar el retiro.');
+                });
+        })
+    </script>
+</body>
+</html>

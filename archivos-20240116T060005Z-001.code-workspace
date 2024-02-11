@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../archivos-20240116T060005Z-001"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "budgetapp"
+	}
+}
